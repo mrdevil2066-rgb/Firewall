@@ -1,0 +1,25 @@
+{
+  "name": "firewall-educational-platform",
+  "version": "1.0.0",
+  "description": "Interactive educational web application for learning about cyber attacks and firewall protection",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "npm install && cd frontend && npm install && cd ../backend && npm install && cd ../target-server && npm install",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:target\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:target": "cd target-server && npm start",
+    "start": "npm run dev"
+  },
+  "keywords": [
+    "firewall",
+    "cybersecurity",
+    "education",
+    "attack-simulation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
