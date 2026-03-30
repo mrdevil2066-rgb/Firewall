@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 
+const targetBackendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5001';
+const targetVictimUrl = import.meta.env.VITE_TARGET_URL || 'http://localhost:3001';
+
 const TargetPanel = ({ targetResponse, loading }) => {
     const [targetStatus, setTargetStatus] = useState(null);
     const [statusLoading, setStatusLoading] = useState(false);
@@ -8,7 +11,7 @@ const TargetPanel = ({ targetResponse, loading }) => {
     const fetchStatus = async () => {
         setStatusLoading(true);
         try {
-            const res = await fetch('http://localhost:5001/api/target/status');
+            const res = await fetch(`${targetBackendUrl}/api/target/status`);
             const data = await res.json();
             setTargetStatus(data);
         } catch {
@@ -79,7 +82,7 @@ const TargetPanel = ({ targetResponse, loading }) => {
                         </span>
                     )}
                     <a
-                        href="http://localhost:3001"
+                        href={targetVictimUrl}
                         target="_blank"
                         rel="noreferrer"
                         className="text-xs px-2 py-1 bg-orange-500/20 text-orange-400 rounded border border-orange-500/30 hover:bg-orange-500/30 transition-colors"
@@ -103,7 +106,7 @@ const TargetPanel = ({ targetResponse, loading }) => {
                     <div className="text-center">
                         <div className="text-3xl mb-3 animate-bounce">⚡</div>
                         <p className="text-orange-400 font-semibold">Hitting target server...</p>
-                        <p className="text-gray-400 text-sm mt-1">Sending real attack payload to localhost:3001</p>
+                        <p className="text-gray-400 text-sm mt-1">Sending real attack payload to target</p>
                     </div>
                 </div>
             ) : targetResponse ? (
@@ -211,7 +214,7 @@ const TargetPanel = ({ targetResponse, loading }) => {
             {targetStatus && !targetStatus.error && (
                 <button
                     onClick={async () => {
-                        await fetch('http://localhost:5001/api/target/reset', { method: 'POST' });
+                        await fetch(`${targetBackendUrl}/api/target/reset`, { method: 'POST' });
                         fetchStatus();
                     }}
                     className="mt-3 w-full text-xs py-1.5 px-3 bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 rounded border border-gray-600/50 transition-colors"

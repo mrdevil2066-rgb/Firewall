@@ -3,6 +3,8 @@ import api from '../utils/api';
 import InfoPanel from './InfoPanel';
 import TargetPanel from './TargetPanel';
 
+const targetVictimUrl = import.meta.env.VITE_TARGET_URL || 'http://localhost:3001';
+
 const AttackSimulator = ({ attackType, attackData, renderInputs, renderVisualization }) => {
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -41,9 +43,9 @@ const AttackSimulator = ({ attackType, attackData, renderInputs, renderVisualiza
                 {/* Target badge */}
                 <div className="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-lg">
                     <span className="text-orange-400 text-sm">🎯 Real attacks hit:</span>
-                    <a href="http://localhost:3001" target="_blank" rel="noreferrer"
+                    <a href={targetVictimUrl} target="_blank" rel="noreferrer"
                         className="text-orange-300 font-mono text-sm hover:text-orange-200 underline">
-                        http://localhost:3001 (ShopVictim)
+                        {targetVictimUrl} (ShopVictim)
                     </a>
                     <span className="text-gray-500 text-xs">— intentionally vulnerable target</span>
                 </div>

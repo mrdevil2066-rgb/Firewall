@@ -1,5 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 
+const targetBackendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5001';
+const targetVictimUrl = import.meta.env.VITE_TARGET_URL || 'http://localhost:3001';
+
 const TargetSite = () => {
     const [status, setStatus] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -9,7 +12,7 @@ const TargetSite = () => {
 
     const fetchStatus = useCallback(async () => {
         try {
-            const res = await fetch('http://localhost:5001/api/target/status');
+            const res = await fetch(`${targetBackendUrl}/api/target/status`);
             const data = await res.json();
             setStatus(prev => {
                 // Force iframe reload when ddosMode changes or comments change
@@ -36,7 +39,7 @@ const TargetSite = () => {
     const handleReset = async () => {
         setResetting(true);
         try {
-            await fetch('http://localhost:5001/api/target/reset', { method: 'POST' });
+            await fetch(`${targetBackendUrl}/api/target/reset`, { method: 'POST' });
             await fetchStatus();
         } finally {
             setResetting(false);
@@ -88,9 +91,9 @@ const TargetSite = () => {
 
                 {/* Status bar */}
                 <div className="flex flex-wrap gap-3 items-center">
-                    <a href="http://localhost:3001" target="_blank" rel="noreferrer"
+                    <a href={targetVictimUrl} target="_blank" rel="noreferrer"
                         className="px-4 py-2 bg-orange-500/20 border border-orange-500/40 text-orange-300 rounded-lg text-sm font-mono hover:bg-orange-500/30 transition-colors">
-                        🌐 Open Target Site: localhost:3001 ↗
+                        🌐 Open Target Site ↗
                     </a>
                     <span className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold ${ddosMode ? 'bg-red-500/20 text-red-400 border border-red-500/40' : 'bg-green-500/20 text-green-400 border border-green-500/40'}`}>
                         <span className={`w-2 h-2 rounded-full ${ddosMode ? 'bg-red-400 animate-ping' : 'bg-green-400 animate-pulse'}`}></span>
@@ -216,10 +219,10 @@ const TargetSite = () => {
                         <h3 className="text-gray-300 font-semibold text-sm mb-3">Open Target Site Directly:</h3>
                         <div className="grid grid-cols-2 gap-2">
                             {[
-                                { label: '🏠 Homepage', url: 'http://localhost:3001' },
-                                { label: '👥 Users API', url: 'http://localhost:3001/api/users' },
-                                { label: '📦 Products API', url: 'http://localhost:3001/api/products' },
-                                { label: '📊 Status API', url: 'http://localhost:3001/api/status' },
+                                { label: '🏠 Homepage', url: targetVictimUrl },
+                                { label: '👥 Users API', url: `${targetVictimUrl}/api/users` },
+                                { label: '📦 Products API', url: `${targetVictimUrl}/api/products` },
+                                { label: '📊 Status API', url: `${targetVictimUrl}/api/status` },
                             ].map(link => (
                                 <a key={link.url} href={link.url} target="_blank" rel="noreferrer"
                                     className="text-xs px-3 py-2 bg-gray-800/50 hover:bg-gray-700/50 text-gray-300 rounded-lg border border-gray-600/30 text-center transition-colors">
@@ -237,7 +240,7 @@ const TargetSite = () => {
                     <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400">
                         🖥️ Live Target Website Preview
                     </h2>
-                    <a href="http://localhost:3001" target="_blank" rel="noreferrer"
+                    <a href={targetVictimUrl} target="_blank" rel="noreferrer"
                         className="text-sm text-orange-400 hover:text-orange-300 underline">
                         Open in new tab ↗
                     </a>
@@ -245,7 +248,7 @@ const TargetSite = () => {
                 <div className="rounded-xl overflow-hidden border border-white/10" style={{ height: '600px' }}>
                     <iframe
                         key={iframeKey}
-                        src="http://localhost:3001"
+                        src={targetVictimUrl}
                         title="ShopVictim Target Website"
                         className="w-full h-full"
                         style={{ border: 'none' }}
