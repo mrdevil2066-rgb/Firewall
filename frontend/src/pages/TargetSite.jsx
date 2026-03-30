@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const targetBackendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5001';
+const targetBackendUrl = import.meta.env.VITE_BACKEND_URL || '';
 const targetVictimUrl = import.meta.env.VITE_TARGET_URL || 'http://localhost:3001';
 
 const TargetSite = () => {
